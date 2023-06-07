@@ -1,4 +1,5 @@
-import { Button } from "@mui/material";
+import { Avatar, Button, IconButton } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
 import React from "react";
 export type UserSpaceProps = {
   onLogout: () => void;
@@ -7,7 +8,10 @@ export type UserSpaceProps = {
 function UserSpace({ onLogout }: UserSpaceProps) {
   return (
     <div className="bg-white">
-      <Button onClick={onLogout}>Log out</Button>
+      <Avatar />
+      <IconButton onClick={onLogout}>
+        <LogoutIcon className="rotate-180" />
+      </IconButton>
     </div>
   );
 }

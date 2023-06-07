@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { auth, database } from "./config";
 import { ref, set } from "firebase/database";
+import { collection, addDoc } from "firebase/firestore";
 
 export class FireBaseServices {
   private static serviceInstance: FireBaseServices;
@@ -25,10 +26,18 @@ export class FireBaseServices {
         password
       );
       if (userData) {
-        set(ref(database, "users/" + userData.user.uid), {
-          username: userData.user.email,
-          email: email,
+        console.log(userData.user.providerData);
+        const docRef = await addDoc(collection(database, "users"), {
+          id: userData.user.uid,
+          ...userData.user.providerData[0],
+          // first: "Ada",
+          // last: "Lovelace",
+          // born: 1815,
         });
+        // set(ref(database, "users/" + userData.user.uid), {
+        //   username: userData.user.email,
+        //   email: email,
+        // });
       }
       return userData.user.providerData;
     } catch (error) {
