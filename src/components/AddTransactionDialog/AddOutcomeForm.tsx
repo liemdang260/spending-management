@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import { Field, Form, Formik } from "formik";
 import { FormControl, InputAdornment, TextField } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { IJar } from "../../interfaces/spending.interfaces";
+import FormikDatePicker from "./FormikDatePicker";
 
 type AddOutcomeFormProps = {
   jar: IJar;
@@ -26,9 +26,9 @@ const AddOutcomeForm = ({
   return (
     <div>
       <Formik
-        initialValues={initialValues}
+        initialValues={initialValues()}
         onSubmit={(value) => {
-          console.log(value(), "out come forme");
+          console.log(value.date.toString(), "out come forme");
         }}
       >
         {({ submitForm }) => (
@@ -38,7 +38,7 @@ const AddOutcomeForm = ({
               return null;
             })()}
             <FormControl fullWidth sx={{ my: 1 }}>
-              <Field name="date" as={DatePicker} label="Ngày" />
+              <Field name="date" as={FormikDatePicker} label="Ngày" />
             </FormControl>
             <FormControl fullWidth sx={{ my: 1 }}>
               <Field

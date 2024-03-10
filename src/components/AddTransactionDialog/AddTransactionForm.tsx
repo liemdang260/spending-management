@@ -4,7 +4,7 @@ import { RootState } from "../../store/store";
 import dayjs from "dayjs";
 import { Field, Form, Formik } from "formik";
 import { FormControl, MenuItem, TextField } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
+import FormikDatePicker from "./FormikDatePicker";
 
 export default function AddTransactionForm({
   onBindingSubmitFunction,
@@ -24,9 +24,9 @@ export default function AddTransactionForm({
   return (
     <div>
       <Formik
-        initialValues={initialValues}
+        initialValues={initialValues()}
         onSubmit={(value) => {
-          console.log(value(), "transaction");
+          console.log(value.date.toString(), "transaction");
         }}
       >
         {({ submitForm }) => (
@@ -36,7 +36,13 @@ export default function AddTransactionForm({
               return null;
             })()}
             <FormControl fullWidth sx={{ my: 1 }}>
-              <Field name="hole" as={TextField} select label="Hủ đi">
+              <Field
+                name="sourceHole"
+                as={TextField}
+                select
+                label="Hủ đi"
+                defaultValue={1}
+              >
                 {jars.map((jar, index) => (
                   <MenuItem value={jar.id} key={index}>
                     {jar.name}
@@ -45,7 +51,13 @@ export default function AddTransactionForm({
               </Field>
             </FormControl>
             <FormControl fullWidth sx={{ my: 1 }}>
-              <Field name="hole" as={TextField} select label="Hủ đến">
+              <Field
+                name="destinationHole"
+                as={TextField}
+                select
+                label="Hủ đến"
+                defaultValue={2}
+              >
                 {jars.map((jar, index) => (
                   <MenuItem value={jar.id} key={index}>
                     {jar.name}
@@ -54,7 +66,7 @@ export default function AddTransactionForm({
               </Field>
             </FormControl>
             <FormControl fullWidth sx={{ my: 1 }}>
-              <Field name="date" as={DatePicker} label="Ngày" />
+              <Field name="date" as={FormikDatePicker} label="Ngày" />
             </FormControl>
             <FormControl fullWidth sx={{ my: 1 }}>
               <Field

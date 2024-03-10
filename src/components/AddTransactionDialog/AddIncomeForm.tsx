@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
+import FormikDatePicker from "./FormikDatePicker";
 
 type AddIncomeFormProps = {
   onBindingSubmitFunction: (submitFunction: () => void) => void;
@@ -25,9 +26,9 @@ function AddIncomeForm({ onBindingSubmitFunction }: AddIncomeFormProps) {
   return (
     <div>
       <Formik
-        initialValues={initialValues}
+        initialValues={initialValues()}
         onSubmit={(value) => {
-          console.log(value(), "income form");
+          console.log(value.date.toString(), "income form");
         }}
       >
         {({ submitForm }) => (
@@ -37,7 +38,7 @@ function AddIncomeForm({ onBindingSubmitFunction }: AddIncomeFormProps) {
               return null;
             })()}
             <FormControl fullWidth sx={{ my: 1 }}>
-              <Field name="date" as={DatePicker} label="Ngày" />
+              <Field name="date" as={FormikDatePicker} label="Ngày" />
             </FormControl>
             <FormControl fullWidth sx={{ my: 1 }}>
               <Field
@@ -56,11 +57,6 @@ function AddIncomeForm({ onBindingSubmitFunction }: AddIncomeFormProps) {
                 variant="standard"
               />
             </FormControl>
-            <DialogActions>
-              <Button type="submit" variant="contained" color="primary">
-                Submit
-              </Button>
-            </DialogActions>
           </Form>
         )}
       </Formik>
