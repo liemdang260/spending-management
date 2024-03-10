@@ -1,7 +1,7 @@
-import React from "react"
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2"
-import { Outlet } from "react-router"
-import SideBar from "../../components/SideBar"
+import React from "react";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { Outlet } from "react-router";
+import SideBar from "../../components/SideBar";
 
 function Root() {
   return (
@@ -15,7 +15,7 @@ function Root() {
         </Grid2>
       </Grid2>
     </div>
-  )
+  );
 }
 
-export default Root
+export default Root;

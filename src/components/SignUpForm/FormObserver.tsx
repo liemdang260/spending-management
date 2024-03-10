@@ -6,15 +6,18 @@ type FormObserverProps = {
 };
 
 function FormObserver({ callBack, trigger }: FormObserverProps) {
-  const isFirstValidate = useRef(true);
+  const isFirstValidate = useRef(false);
+
   useEffect(() => {
-    if (isFirstValidate.current) {
+    if (trigger && trigger !== isFirstValidate.current) {
       isFirstValidate.current = false;
       return;
     }
     callBack();
+    isFirstValidate.current = trigger;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
+
   return null;
 }
 

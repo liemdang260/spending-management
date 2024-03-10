@@ -1,9 +1,9 @@
-import { Card, IconButton, LinearProgress, Modal } from "@mui/material";
-import React, { ReactElement, useState } from "react";
+import { IconButton, LinearProgress } from "@mui/material";
+import { ReactElement, useState } from "react";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { formatMoney } from "../../utils/moneyFormatter";
 import { IJar } from "../../interfaces/spending.interfaces";
-import AddSpendingForm from "../AddSpendingForm";
+import { AddTransactionDialog } from "../AddTransactionDialog/AddTransactionDialog";
 
 type JarProps = {
   jar?: IJar;
@@ -12,6 +12,15 @@ type JarProps = {
 const Jar = ({ jar, create }: JarProps): ReactElement => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isAddNewSpending, setIsAddNewSpending] = useState<boolean>(false);
+
+  const openAddDialog = () => {
+    setIsAddNewSpending(true);
+  };
+
+  const closeAddDialog = () => {
+    setIsAddNewSpending(false);
+  };
+
   const renderCreateButton = () => {
     return (
       <div className="w-full h-full flex flex-col justify-center items-center ">
@@ -21,6 +30,7 @@ const Jar = ({ jar, create }: JarProps): ReactElement => {
       </div>
     );
   };
+
   const renderJar = () => {
     const { name, income, outcome } = jar!;
     const avaiable = income - outcome;
@@ -32,12 +42,7 @@ const Jar = ({ jar, create }: JarProps): ReactElement => {
       >
         {isHovered && (
           <div className="w-full h-full flex flex-col justify-center items-center absolute z-10">
-            <IconButton
-              onClick={() => {
-                // setIsHovered(false);
-                setIsAddNewSpending(true);
-              }}
-            >
+            <IconButton onClick={openAddDialog}>
               <AddCircleRoundedIcon sx={{ fontSize: 90 }} color="secondary" />
             </IconButton>
           </div>
@@ -54,14 +59,11 @@ const Jar = ({ jar, create }: JarProps): ReactElement => {
             value={((income - avaiable) / outcome) * 100}
           />
         </div>
-        <Modal
-          open={isAddNewSpending}
-          onClose={() => setIsAddNewSpending(false)}
-        >
-          <Card className="w-[30%] mx-auto top-[25%] left-[40%] absolute">
-            <AddSpendingForm />
-          </Card>
-        </Modal>
+        <AddTransactionDialog
+          jar={jar!}
+          isAddNewSpending={isAddNewSpending}
+          closeAddDialog={closeAddDialog}
+        />
       </div>
     );
   };

@@ -10,23 +10,25 @@ function SideBar() {
   const theme = useTheme();
   return (
     <div
-      className="p-3 h-full"
+      className="p-3 h-full flex justify-between flex-col"
       style={{ backgroundColor: theme.palette.primary.main }}
     >
-      <Logo />
-      <Divider />
-      <List>
-        {Object.keys(menu).map((key, index) => (
-          <ListItem key={`link-${index}`}>
-            <Link
-              to={menu[key as keyof typeof menu]}
-              className="text-white font-dancingScript text-xl"
-            >
-              {key}
-            </Link>
-          </ListItem>
-        ))}
-      </List>
+      <div>
+        <Logo />
+        <Divider />
+        <List>
+          {Object.keys(menu).map((key, index) => (
+            <ListItem key={`link-${index}`}>
+              <Link
+                to={menu[key as keyof typeof menu]}
+                className="text-white font-dancingScript text-xl"
+              >
+                {key}
+              </Link>
+            </ListItem>
+          ))}
+        </List>
+      </div>
       <UserSpace />
     </div>
   );

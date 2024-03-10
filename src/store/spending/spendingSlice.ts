@@ -19,7 +19,7 @@ const initialState: SpendingState = {
   jars: [
     {
       id: "1",
-      name: "common",
+      name: "Chi tiêu",
       income: 5500000,
       outcome: 0,
       spendingDetail: [],
@@ -27,7 +27,7 @@ const initialState: SpendingState = {
     },
     {
       id: "2",
-      name: "study",
+      name: "Học tập",
       income: 1000000,
       outcome: 0,
       spendingDetail: [],
@@ -35,7 +35,7 @@ const initialState: SpendingState = {
     },
     {
       id: "3",
-      name: "save",
+      name: "Tiết kiệm",
       income: 1000000,
       outcome: 0,
       spendingDetail: [],
@@ -43,7 +43,7 @@ const initialState: SpendingState = {
     },
     {
       id: "4",
-      name: "investion",
+      name: "Đầu tư",
       income: 1000000,
       outcome: 0,
       spendingDetail: [],
@@ -51,7 +51,7 @@ const initialState: SpendingState = {
     },
     {
       id: "5",
-      name: "enjoyment",
+      name: "Hưởng thụ",
       income: 1000000,
       outcome: 0,
       spendingDetail: [],
@@ -59,7 +59,7 @@ const initialState: SpendingState = {
     },
     {
       id: "6",
-      name: "charity",
+      name: "Từ tâm",
       income: 500000,
       outcome: 0,
       spendingDetail: [],

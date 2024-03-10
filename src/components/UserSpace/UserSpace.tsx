@@ -7,7 +7,7 @@ export type UserSpaceProps = {
 
 function UserSpace({ onLogout }: UserSpaceProps) {
   return (
-    <div className="bg-white">
+    <div className="bg-white rounded">
       <Avatar />
       <IconButton onClick={onLogout}>
         <LogoutIcon className="rotate-180" />

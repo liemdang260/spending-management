@@ -5,8 +5,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, database } from "./config";
-import { ref, set } from "firebase/database";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { INIT_JARS_DATA, initialData } from "./constants";
 
 export class FireBaseServices {
   private static serviceInstance: FireBaseServices;
@@ -26,20 +26,14 @@ export class FireBaseServices {
         password
       );
       if (userData) {
-        console.log(userData.user.providerData);
         const docRef = await addDoc(collection(database, "users"), {
           id: userData.user.uid,
           ...userData.user.providerData[0],
-          // first: "Ada",
-          // last: "Lovelace",
-          // born: 1815,
         });
-        // set(ref(database, "users/" + userData.user.uid), {
-        //   username: userData.user.email,
-        //   email: email,
-        // });
+        await this.initData(docRef.id);
+        return { ...userData.user.providerData, id: docRef.id };
       }
-      return userData.user.providerData;
+      throw Error;
     } catch (error) {
       console.log(error);
       throw error;
@@ -64,5 +58,18 @@ export class FireBaseServices {
         reject(error);
       }
     });
+  };
+
+  private initData = async (userId: string): Promise<any> => {
+    await addDoc(collection(database, "data"), {
+      ...initialData,
+      userId,
+    });
+    await setDoc(doc(database, "jars", userId), {});
+    await Promise.all(
+      INIT_JARS_DATA.map((jar) =>
+        addDoc(collection(database, "jars", userId), jar)
+      )
+    );
   };
 }
