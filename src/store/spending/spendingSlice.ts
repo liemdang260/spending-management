@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import { IJar } from "../../interfaces/spending.interfaces";
-import { useSelector } from "react-redux";
 
 export interface SpendingState {
   information: {
@@ -72,14 +70,17 @@ export const spendingSlice = createSlice({
   name: "spending",
   initialState,
   reducers: {
-    increment: (state) => {},
-    decrement: (state) => {},
-    incrementByAmount: (state, action: PayloadAction<number>) => {},
+    fetchSpendingDataRequest: (state) => {},
+    fetchSpendingDataSuccess: (state) => {},
+    fetchSpendingDataFalure: (state) => {},
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } =
-  spendingSlice.actions;
+export const {
+  fetchSpendingDataRequest,
+  fetchSpendingDataSuccess,
+  fetchSpendingDataFalure,
+} = spendingSlice.actions;
 
 export default spendingSlice.reducer;

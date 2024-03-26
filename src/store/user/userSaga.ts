@@ -1,4 +1,4 @@
-import { call, delay, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { USER_ACTION } from "./userAction";
 import {
   initUserDataFailure,
@@ -11,8 +11,8 @@ import {
   signUpRequest,
   signUpSuccess,
 } from "./userSlice";
-import { FireBaseServices } from "../../firebase/firebaseServices";
-import FIREBASE_ERROR from "../../firebase/firebaseError";
+import { FireBaseServices } from "../../services/firebase/firebaseServices";
+import FIREBASE_ERROR from "../../services/firebase/firebaseError";
 import { USER_ERROR } from "./userError";
 
 function* createNewUserHandle(action: any): any {
@@ -48,7 +48,6 @@ function* loginHandle(action: any): any {
     );
     yield put(loginSuccess(userData));
   } catch (error: any) {
-    console.log(error.code);
     switch (error.code) {
       case FIREBASE_ERROR.UserNotFound:
         yield put(loginFalure(USER_ERROR.UserNotFound));

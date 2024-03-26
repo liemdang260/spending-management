@@ -1,10 +1,9 @@
-import { Button, DialogActions, FormControl, TextField } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import dayjs from "dayjs";
-import { DatePicker } from "@mui/x-date-pickers";
 import FormikDatePicker from "./FormikDatePicker";
 
 type AddIncomeFormProps = {

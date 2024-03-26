@@ -1,8 +1,7 @@
-import React, { ReactElement } from "react";
-import { FireBaseServices } from "../../firebase/firebaseServices";
+import React from "react";
 import { LoginFormProps } from "./LoginForm";
 import { useDispatch } from "react-redux";
-import { loginSuccess, removeLoginError } from "../../store/user/userSlice";
+import { removeLoginError } from "../../store/user/userSlice";
 import { USER_ACTION } from "../../store/user/userAction";
 
 const withLoginController = (Component: React.FC<LoginFormProps>) => {

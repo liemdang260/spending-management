@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { useLocation, useNavigate } from "react-router";
@@ -13,7 +13,7 @@ export default function useAuth() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!isRequestLogin) {
       dispatch({ type: USER_ACTION.InitUserData });
     } else if (

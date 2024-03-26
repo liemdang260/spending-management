@@ -1,5 +1,5 @@
 import React from "react";
-import { FireBaseServices } from "../../firebase/firebaseServices";
+import { FireBaseServices } from "../../services/firebase/firebaseServices";
 import { UserSpaceProps } from "./UserSpace";
 import { useDispatch } from "react-redux";
 import { logoutSuccess } from "../../store/user/userSlice";

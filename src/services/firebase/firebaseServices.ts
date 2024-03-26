@@ -25,12 +25,13 @@ export class FireBaseServices {
         email,
         password
       );
+
       if (userData) {
         const docRef = await addDoc(collection(database, "users"), {
           id: userData.user.uid,
           ...userData.user.providerData[0],
         });
-        await this.initData(docRef.id);
+        await this._initData(docRef.id);
         return { ...userData.user.providerData, id: docRef.id };
       }
       throw Error;
@@ -60,16 +61,11 @@ export class FireBaseServices {
     });
   };
 
-  private initData = async (userId: string): Promise<any> => {
+  private _initData = async (userId: string): Promise<any> => {
     await addDoc(collection(database, "data"), {
       ...initialData,
       userId,
     });
-    await setDoc(doc(database, "jars", userId), {});
-    await Promise.all(
-      INIT_JARS_DATA.map((jar) =>
-        addDoc(collection(database, "jars", userId), jar)
-      )
-    );
+    await addDoc(collection(database, "jars"), { data: INIT_JARS_DATA });
   };
 }
