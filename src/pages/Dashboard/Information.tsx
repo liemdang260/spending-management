@@ -15,7 +15,7 @@ function Information({ income, outcome }: InformationProps) {
           <Container className="w-full h-full overflow-hidden">
             <div className="flex flex-row justify-around items-center w-full h-full">
               <CircularProgressWithLabel
-                value={((income - outcome) / income) * 100}
+                value={income === 0 ? 100 : ((income - outcome) / income) * 100}
                 size={60}
               />
               <div>
