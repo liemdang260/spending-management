@@ -11,7 +11,7 @@ export default function AddTransactionForm({
 }: {
   onBindingSubmitFunction: (submitFunction: () => void) => void;
 }) {
-  const jars = useSelector((state: RootState) => state.spending.jars);
+  const jars = useSelector((state: RootState) => state.spending.data.jars);
   const initialValues = useCallback(
     () => ({
       amount: 0,

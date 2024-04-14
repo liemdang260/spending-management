@@ -3,10 +3,13 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
+  UserCredential,
+  User,
 } from "firebase/auth";
 import { auth, database } from "./config";
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { INIT_JARS_DATA, initialData } from "./constants";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { ModelName } from "../Models/model.constants";
+import { BaseObject } from "../Models/model.Interfaces";
 
 export class FireBaseServices {
   private static serviceInstance: FireBaseServices;
@@ -18,30 +21,33 @@ export class FireBaseServices {
     return this.serviceInstance;
   }
 
-  createNewUser = async (email: string, password: string): Promise<any> => {
-    try {
-      const userData = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      if (userData) {
-        const docRef = await addDoc(collection(database, "users"), {
-          id: userData.user.uid,
-          ...userData.user.providerData[0],
-        });
-        await this._initData(docRef.id);
-        return { ...userData.user.providerData, id: docRef.id };
-      }
-      throw Error;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+  addADocument = async <T extends BaseObject>(
+    modelName: ModelName,
+    id: string,
+    value: T
+  ): Promise<Omit<T, "id"> & { id: string }> => {
+    const newDocRef = doc(database, modelName, id);
+    await setDoc(newDocRef, value);
+    return { id: newDocRef.id, ...value };
   };
 
-  login = async (email: string, password: string): Promise<any> => {
+  getADocument = async <T extends BaseObject>(
+    modelName: ModelName,
+    id: string
+  ): Promise<T> => {
+    const docSnap = await getDoc(doc(database, modelName, id));
+
+    if (docSnap.exists()) {
+      return docSnap.data() as T;
+    }
+    throw Error();
+  };
+
+  createUserWithEmailAndPassword = async (email: string, password: string) => {
+    return await createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  login = async (email: string, password: string): Promise<UserCredential> => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
@@ -49,7 +55,7 @@ export class FireBaseServices {
     await signOut(auth);
   };
 
-  getCurrentUser = () => {
+  getCurrentUser = (): Promise<User | null> => {
     return new Promise((resolve, reject) => {
       try {
         onAuthStateChanged(auth, (user) => {
@@ -59,13 +65,5 @@ export class FireBaseServices {
         reject(error);
       }
     });
-  };
-
-  private _initData = async (userId: string): Promise<any> => {
-    await addDoc(collection(database, "data"), {
-      ...initialData,
-      userId,
-    });
-    await addDoc(collection(database, "jars"), { data: INIT_JARS_DATA });
   };
 }

@@ -1,17 +1,14 @@
 import React from "react";
-import { FireBaseServices } from "../../services/firebase/firebaseServices";
 import { UserSpaceProps } from "./UserSpace";
 import { useDispatch } from "react-redux";
-import { logoutSuccess } from "../../store/user/userSlice";
+import { USER_ACTION } from "../../store/user/userAction";
 
 const withUserSpaceController = (Component: React.FC<UserSpaceProps>) => {
   return (props: any) => {
     const dispatch = useDispatch();
     const onLogout = async () => {
       try {
-        await FireBaseServices.instance.logout();
-        localStorage.removeItem("access_token");
-        dispatch(logoutSuccess());
+        dispatch({ type: USER_ACTION.UserLogout });
       } catch (error) {
         console.log(error);
       }

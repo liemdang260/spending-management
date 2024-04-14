@@ -11,7 +11,7 @@ type AddIncomeFormProps = {
 };
 
 function AddIncomeForm({ onBindingSubmitFunction }: AddIncomeFormProps) {
-  const jars = useSelector((state: RootState) => state.spending.jars);
+  const jars = useSelector((state: RootState) => state.spending.data.jars);
 
   const initialValues = useCallback(
     () => ({

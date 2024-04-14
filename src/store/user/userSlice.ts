@@ -26,6 +26,7 @@ export const userSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<any>) => {
       state.isLogged = true;
       state.isLogging = false;
+      state.isRequestLogin = false;
       state.user = action.payload;
       state.loginError = null;
     },
@@ -52,22 +53,32 @@ export const userSlice = createSlice({
       state.loginError = action.payload;
     },
     initUserDataRequest: (state) => {
-      state.isRequestLogin = true;
       state.isLogging = true;
     },
     initUserDataSuccess: (state, action: PayloadAction<any>) => {
       state.isLogged = true;
       state.isLogging = false;
-      state.user = action;
+      state.user = action.payload;
     },
     initUserDataFailure: (state) => {
       state.isLogged = false;
       state.isLogging = false;
+      state.isRequestLogin = true;
       state.user = null;
+    },
+    logoutRequest: (state) => {
+      state.isLogging = true;
     },
     logoutSuccess: (state) => {
       state.isLogged = false;
+      state.isLogging = false;
       state.user = null;
+    },
+    logoutFailure: (state, action: PayloadAction<any>) => {
+      state.isLogging = false;
+      state.isLogged = false;
+      state.user = null;
+      state.loginError = action.payload;
     },
     removeLoginError: (state) => {
       state.loginError = null;
@@ -82,7 +93,9 @@ export const {
   signUpRequest,
   signUpSuccess,
   signUpFailure,
+  logoutRequest,
   logoutSuccess,
+  logoutFailure,
   initUserDataRequest,
   initUserDataSuccess,
   initUserDataFailure,

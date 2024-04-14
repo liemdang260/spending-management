@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { USER_ACTION } from "./userAction";
 import {
   initUserDataFailure,
@@ -7,6 +7,9 @@ import {
   loginFalure,
   loginRequest,
   loginSuccess,
+  logoutFailure,
+  logoutRequest,
+  logoutSuccess,
   signUpFailure,
   signUpRequest,
   signUpSuccess,
@@ -14,12 +17,14 @@ import {
 import { FireBaseServices } from "../../services/firebase/firebaseServices";
 import FIREBASE_ERROR from "../../services/firebase/firebaseError";
 import { USER_ERROR } from "./userError";
+import { SPENDING_ACTIONS } from "../spending/spendingAction";
+import { UserModel } from "../../services/Models/UserModel";
 
 function* createNewUserHandle(action: any): any {
   yield put(signUpRequest());
   try {
     const user = yield call(
-      FireBaseServices.instance.createNewUser,
+      UserModel.instance.createNewUser,
       action.data.username,
       action.data.password
     );
@@ -46,7 +51,11 @@ function* loginHandle(action: any): any {
       action.data.username,
       action.data.password
     );
+
     yield put(loginSuccess(userData));
+    yield put({
+      type: SPENDING_ACTIONS.FetchSpendingDatas,
+    });
   } catch (error: any) {
     switch (error.code) {
       case FIREBASE_ERROR.UserNotFound:
@@ -64,9 +73,11 @@ function* loginHandle(action: any): any {
 function* initUserDataHandle(): any {
   yield put(initUserDataRequest());
   try {
-    const userData = yield call(FireBaseServices.instance.getCurrentUser);
+    const userData = yield call(UserModel.instance.getCurrentUser);
+
     if (userData) {
-      yield put(initUserDataSuccess(userData.providerData));
+      yield put(initUserDataSuccess(userData));
+      yield put({ type: SPENDING_ACTIONS.FetchSpendingDatas });
     } else {
       yield put(initUserDataFailure());
     }
@@ -76,8 +87,21 @@ function* initUserDataHandle(): any {
   }
 }
 
+function* logoutHandle() {
+  yield put(logoutRequest());
+  try {
+    yield call(FireBaseServices.instance.logout);
+    yield call([localStorage, localStorage.removeItem], "access_token");
+    yield put(logoutSuccess());
+  } catch (error) {
+    console.log(error);
+    yield put(logoutFailure(error));
+  }
+}
+
 export function* watchUserAction() {
   yield takeEvery(USER_ACTION.CreateNewUser, createNewUserHandle);
   yield takeEvery(USER_ACTION.UserLogin, loginHandle);
-  yield takeEvery(USER_ACTION.InitUserData, initUserDataHandle);
+  yield takeLatest(USER_ACTION.InitUserData, initUserDataHandle);
+  yield takeLatest(USER_ACTION.UserLogout, logoutHandle);
 }
