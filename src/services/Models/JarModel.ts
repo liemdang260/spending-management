@@ -1,30 +1,63 @@
-import { initialData } from "../firebase/constants";
-import { FireBaseServices } from "../firebase/firebaseServices";
-import { Model } from "./BaseModel";
-import { ModelName } from "./model.constants";
+import { BaseModel, IInitData } from "./baseModel";
+import { ITransaction } from "./TransactionModel";
 
-export interface Jar {}
-
-export class JarModel extends Model<Jar> {
-  private static _instance: JarModel;
-
-  constructor() {
-    super(ModelName.Jars);
-  }
-
-  public static get instance() {
-    if (!this._instance) {
-      this._instance = new this();
-    }
-
-    return this._instance;
-  }
-
-  public async createADocument(id: string) {
-    return FireBaseServices.instance.addADocument<Jar>(
-      this._modelName,
-      id,
-      initialData
-    );
-  }
+export interface IJar extends BaseModel {
+  id: string;
+  order: number;
+  name: string;
+  income: number;
+  outcome: number;
+  percent: number;
+  transactions: ITransaction[];
 }
+
+export const initialData: IInitData<IJar>[] = [
+  {
+    order: 0,
+    name: "common",
+    income: 0,
+    outcome: 0,
+    transactions: [],
+    percent: 55,
+  },
+  {
+    order: 1,
+    name: "study",
+    income: 0,
+    outcome: 0,
+    transactions: [],
+    percent: 10,
+  },
+  {
+    order: 2,
+    name: "save",
+    income: 0,
+    outcome: 0,
+    transactions: [],
+    percent: 10,
+  },
+  {
+    order: 3,
+    name: "investion",
+    income: 0,
+    outcome: 0,
+    transactions: [],
+    percent: 10,
+  },
+  {
+    order: 4,
+    name: "enjoyment",
+    income: 0,
+    outcome: 0,
+    transactions: [],
+    percent: 10,
+  },
+  {
+    order: 5,
+    name: "charity",
+    income: 0,
+    outcome: 0,
+    transactions: [],
+    percent: 5,
+  },
+];

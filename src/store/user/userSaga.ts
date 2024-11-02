@@ -18,16 +18,15 @@ import { FireBaseServices } from "../../services/firebase/firebaseServices";
 import FIREBASE_ERROR from "../../services/firebase/firebaseError";
 import { USER_ERROR } from "./userError";
 import { SPENDING_ACTIONS } from "../spending/spendingAction";
-import { UserModel } from "../../services/Models/UserModel";
+import { UserService } from "../../services/services/userService";
 
 function* createNewUserHandle(action: any): any {
   yield put(signUpRequest());
   try {
-    const user = yield call(
-      UserModel.instance.createNewUser,
-      action.data.username,
-      action.data.password
-    );
+    const user = yield call(UserService.instance.createNewUser, {
+      email: action.data.username,
+      password: action.data.password,
+    });
     yield put(signUpSuccess(user));
   } catch (error: any) {
     console.log(error.code);
@@ -73,7 +72,7 @@ function* loginHandle(action: any): any {
 function* initUserDataHandle(): any {
   yield put(initUserDataRequest());
   try {
-    const userData = yield call(UserModel.instance.getCurrentUser);
+    const userData = yield call(UserService.instance.getCurrentUser);
 
     if (userData) {
       yield put(initUserDataSuccess(userData));

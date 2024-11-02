@@ -1,35 +1,21 @@
-import { initialData } from "../firebase/constants";
-import { FireBaseServices } from "../firebase/firebaseServices";
-import { Model } from "./BaseModel";
-import { ModelName } from "./model.constants";
+import { getCurrentMonth, getCurrentYear } from "../../utils/date";
+import { BaseModel, IInitData } from "./baseModel";
 
-export interface Information {}
-
-export class InformationModel extends Model<Information> {
-  private static _instance: InformationModel;
-
-  constructor() {
-    super(ModelName.Information);
-  }
-
-  public static get instance() {
-    if (!this._instance) {
-      this._instance = new this();
-    }
-
-    return this._instance;
-  }
-
-  public createADocument = async (id: string) => {
-    return FireBaseServices.instance.addADocument<Information>(
-      this._modelName,
-      id,
-      initialData
-    );
-  };
-
-  public getUserData = async (userId: string) => {
-    console.log(this);
-    return this.getADocument(userId);
-  };
+export interface IInformation extends BaseModel {
+  income: number;
+  outcome: number;
+  balance: number;
+  lastUpdate: number;
+  month: string;
+  year: string;
+  id: string;
 }
+
+export const initialData: IInitData<IInformation> = {
+  income: 0,
+  outcome: 0,
+  balance: 0,
+  lastUpdate: Date.now(),
+  month: getCurrentMonth().toString(),
+  year: getCurrentYear().toString(),
+};

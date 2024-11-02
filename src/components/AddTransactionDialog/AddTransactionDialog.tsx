@@ -17,7 +17,7 @@ import {
 import AddOutcomeForm from "./AddOutcomeForm";
 import AddIncomeForm from "./AddIncomeForm";
 import AddTransactionForm from "./AddTransactionForm";
-import { IJar } from "../../interfaces/spending.interfaces";
+import { IJar } from "../../services/Models/JarModel";
 
 type AddSpendingFormProps = {
   onDisableSubmitButton: () => void;

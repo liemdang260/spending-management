@@ -1,7 +1,7 @@
-import { Container, Grid, Paper } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import React from "react";
 import Jar from "../../components/Jar";
-import { IJar } from "../../interfaces/spending.interfaces";
+import { IJar } from "../../services/Models/JarModel";
 
 export type JarsContainerProps = {
   jars: IJar[];

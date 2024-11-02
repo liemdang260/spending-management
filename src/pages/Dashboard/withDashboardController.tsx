@@ -1,14 +1,27 @@
+import { useSelector } from "react-redux";
 import useAuth from "../../hooks/useAuth";
 import { RootState } from "../../store/store";
-import { DashboardProps } from "./Dashboard";
-import { useSelector } from "react-redux";
+import { DashboardPresenterProps } from "./withDashboardPresenter";
 
-const withDashBoardController = (Component: React.FC<DashboardProps>) => {
-  return () => {
-    useAuth();
+const withDashBoardController = <T extends DashboardPresenterProps>(
+  Component: React.FC<T>
+) => {
+  return (props: Omit<T, keyof DashboardPresenterProps>) => {
+    const { isLogged } = useAuth();
     const data = useSelector((state: RootState) => state.spending.data);
 
-    return <Component jars={data.jars} information={data.information} />;
+    const isFetching = useSelector(
+      (state: RootState) => state.spending.isFetching
+    );
+
+    return (
+      <Component
+        {...(props as T)}
+        jars={data.jars}
+        information={data.information!}
+        isLoading={isFetching || !isLogged}
+      />
+    );
   };
 };
 

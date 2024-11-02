@@ -1,4 +1,4 @@
-import { Avatar, Button, IconButton } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import React from "react";
 export type UserSpaceProps = {

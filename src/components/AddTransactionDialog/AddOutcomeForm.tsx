@@ -2,8 +2,8 @@ import React, { useCallback } from "react";
 import { Field, Form, Formik } from "formik";
 import { FormControl, InputAdornment, TextField } from "@mui/material";
 import dayjs from "dayjs";
-import { IJar } from "../../interfaces/spending.interfaces";
 import FormikDatePicker from "./FormikDatePicker";
+import { IJar } from "../../services/Models/JarModel";
 
 type AddOutcomeFormProps = {
   jar: IJar;

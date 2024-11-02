@@ -1,26 +1,36 @@
 import { call, put, select, takeEvery } from "redux-saga/effects";
+import { IUser } from "../../services/Models/UserModel";
+import { InformationService } from "../../services/services/informationService";
+import { JarService } from "../../services/services/jarService";
+import { RootState } from "../store";
 import { SPENDING_ACTIONS } from "./spendingAction";
 import {
   fetchSpendingDataFalure,
   fetchSpendingDataRequest,
   fetchSpendingDataSuccess,
 } from "./spendingSlice";
-import { RootState } from "../store";
-import { UserState } from "../user/userSlice";
-import { InformationModel } from "../../services/Models/InformationModel";
 
 export function* fetchSpendingDatas(): any {
   yield put(fetchSpendingDataRequest());
   try {
-    const user = yield select<(state: RootState) => UserState>(
+    const user: IUser | null = yield select<(state: RootState) => IUser | null>(
       (state: RootState) => state.user.user
     );
+
     if (user) {
-      const userData = yield call(
-        InformationModel.instance.getUserData,
-        user.userId
+      const userInformation = yield call(
+        InformationService.instance.getUserInformation,
+        user.id
       );
-      yield put(fetchSpendingDataSuccess(userData));
+
+      const jars = yield call(JarService.instance.getUserJars, user.id);
+
+      yield put(
+        fetchSpendingDataSuccess({
+          information: userInformation,
+          jars: jars,
+        })
+      );
       return;
     }
     throw Error;

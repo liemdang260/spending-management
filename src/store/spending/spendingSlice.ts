@@ -1,12 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IJar } from "../../interfaces/spending.interfaces";
+import { IJar } from "../../services/Models/JarModel";
+import { IInformation } from "../../services/Models/InformationModel";
 
 export interface SpendingState {
   data: {
-    information: {
-      income: number;
-      outcome: number;
-    };
+    information?: IInformation;
     jars: IJar[];
   };
   isFetching: boolean;
@@ -15,60 +13,8 @@ export interface SpendingState {
 
 const initialState: SpendingState = {
   data: {
-    information: {
-      income: 10000000,
-      outcome: 0,
-    },
-    jars: [
-      {
-        id: "1",
-        name: "Chi tiêu",
-        income: 5500000,
-        outcome: 0,
-        spendingDetail: [],
-        percent: 55,
-      },
-      {
-        id: "2",
-        name: "Học tập",
-        income: 1000000,
-        outcome: 0,
-        spendingDetail: [],
-        percent: 10,
-      },
-      {
-        id: "3",
-        name: "Tiết kiệm",
-        income: 1000000,
-        outcome: 0,
-        spendingDetail: [],
-        percent: 10,
-      },
-      {
-        id: "4",
-        name: "Đầu tư",
-        income: 1000000,
-        outcome: 0,
-        spendingDetail: [],
-        percent: 10,
-      },
-      {
-        id: "5",
-        name: "Hưởng thụ",
-        income: 1000000,
-        outcome: 0,
-        spendingDetail: [],
-        percent: 10,
-      },
-      {
-        id: "6",
-        name: "Từ tâm",
-        income: 500000,
-        outcome: 0,
-        spendingDetail: [],
-        percent: 5,
-      },
-    ],
+    information: undefined,
+    jars: [],
   },
   isFetching: false,
   fetchingError: null,

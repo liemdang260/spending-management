@@ -2,8 +2,8 @@ import { IconButton, LinearProgress } from "@mui/material";
 import { ReactElement, useState } from "react";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { formatMoney } from "../../utils/moneyFormatter";
-import { IJar } from "../../interfaces/spending.interfaces";
 import { AddTransactionDialog } from "../AddTransactionDialog/AddTransactionDialog";
+import { IJar } from "../../services/Models/JarModel";
 
 type JarProps = {
   jar?: IJar;

@@ -1,18 +1,21 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { USER_ERROR } from "./userError";
+import { IUser } from "../../services/Models/UserModel";
 
 export interface UserState {
   isRequestLogin: boolean;
   isLogged: boolean;
   isLogging: boolean;
   loginError?: USER_ERROR | null;
-  user?: any;
+  user: IUser | null;
 }
 
 const initialState: UserState = {
   isLogged: false,
   isLogging: false,
   isRequestLogin: false,
+  user: null,
+  loginError: null,
 };
 
 export const userSlice = createSlice({
@@ -23,7 +26,7 @@ export const userSlice = createSlice({
       state.isLogging = true;
       state.isRequestLogin = true;
     },
-    loginSuccess: (state, action: PayloadAction<any>) => {
+    loginSuccess: (state, action: PayloadAction<IUser>) => {
       state.isLogged = true;
       state.isLogging = false;
       state.isRequestLogin = false;
@@ -40,10 +43,10 @@ export const userSlice = createSlice({
       state.isLogging = true;
       state.isLogged = false;
     },
-    signUpSuccess: (state, action: PayloadAction<any>) => {
+    signUpSuccess: (state, action: PayloadAction<IUser>) => {
       state.isLogged = true;
       state.isLogging = false;
-      state.user = action;
+      state.user = action.payload;
       state.loginError = null;
     },
     signUpFailure: (state, action: PayloadAction<USER_ERROR>) => {
@@ -55,7 +58,7 @@ export const userSlice = createSlice({
     initUserDataRequest: (state) => {
       state.isLogging = true;
     },
-    initUserDataSuccess: (state, action: PayloadAction<any>) => {
+    initUserDataSuccess: (state, action: PayloadAction<IUser>) => {
       state.isLogged = true;
       state.isLogging = false;
       state.user = action.payload;

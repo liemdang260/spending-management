@@ -4,13 +4,11 @@ import PieChart from "../../components/PieChart";
 import StackedBarChart from "../../components/StackedBarChart";
 import Information from "./Information";
 import JarsContainer from "./JarsContainer";
-import { IJar } from "../../interfaces/spending.interfaces";
+import { IJar } from "../../services/Models/JarModel";
+import { IInformation } from "../../services/Models/InformationModel";
 
 export type DashboardProps = {
-  information: {
-    income: number;
-    outcome: number;
-  };
+  information: IInformation;
   jars: IJar[];
 };
 

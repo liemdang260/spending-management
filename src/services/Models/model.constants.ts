@@ -1,5 +1,6 @@
 export enum ModelName {
-  User = "users",
+  User = "Users",
   Information = "Information",
-  Jars = "jars",
+  Jars = "Jars",
+  Transactions = "Transactions",
 }
